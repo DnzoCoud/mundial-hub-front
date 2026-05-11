@@ -1,25 +1,38 @@
 // src/pages/LoginPage.tsx
+import { AuthApi } from '@app/app/infrastructure/api/auth.api';
+import type { ApiException } from '@app/app/infrastructure/exceptions/api.exception';
+import { type LoginPayload } from '@app/app/infrastructure/http/types/login-payload.type';
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import fondoImg from '../assets/FondoMundial.png';
+import logoImg from '../assets/LogoMundialBLanco.png';
 import InputWithIcon from '../components/InputWithIcon';
 import styles from '../styles/LoginPage.module.css';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
-import logoImg from '../assets/LogoMundialBLanco.png';
-import fondoImg from '../assets/FondoMundial.png';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginPayload>({
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: '' });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+
+      setErrors(prev => ({
+        ...prev,
+        [name]: '',
+      }));
     }
   };
 
@@ -49,24 +62,12 @@ const LoginPage = () => {
     setErrors({});
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.email, password: formData.password }),
-      });
-      const data = await response.json();
-      if (response.ok && data.success) {
-        // Guardar token y datos del usuario
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userEmail', formData.email);
-        localStorage.setItem('userFullName', data.fullName || '');
-        // Redirigir a la página principal o dashboard
-        navigate('/dashboard');
-      } else {
-        setErrors({ general: data.message || 'Error al iniciar sesión' });
-      }
+      const data = await AuthApi.login(formData)
+      localStorage.setItem('token', data.token);
+      navigate("/dashboard")
     } catch (error) {
-      setErrors({ general: 'Error de conexión con el servidor' });
+      const errorCustom = error as ApiException
+      setErrors({ general: errorCustom.message });
     } finally {
       setLoading(false);
     }
@@ -85,7 +86,7 @@ const LoginPage = () => {
               type="email"
               placeholder="Correo electrónico"
               value={formData.email}
-              onChange={handleChange}
+              onChange={handleInputChange}
               icon={<FaEnvelope />}
               error={errors.email}
             />
@@ -95,7 +96,7 @@ const LoginPage = () => {
                 type="password"
                 placeholder="Contraseña"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 icon={<FaLock />}
                 error={errors.password}
               />

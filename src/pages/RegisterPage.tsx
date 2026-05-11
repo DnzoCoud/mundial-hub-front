@@ -1,15 +1,19 @@
 // src/pages/RegisterPage.tsx
+import { AuthApi } from '@app/app/infrastructure/api/auth.api';
+import type { RegisterPayload } from '@app/app/infrastructure/http/types/register-payload.type';
+import { Button } from '@app/components/ui/button';
 import { useState } from 'react';
+import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import fondoImg from '../assets/FondoMundial.png';
+import logoImg from '../assets/LogoMundialBLanco.png';
 import InputWithIcon from '../components/InputWithIcon';
 import styles from '../styles/RegisterPage.module.css';
-import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import { validateRegisterForm } from '../validations/registerValidation';
-import logoImg from '../assets/LogoMundialBLanco.png';
-import fondoImg from '../assets/FondoMundial.png';
-import { Link } from 'react-router-dom';
+import type { ApiException } from '@app/app/infrastructure/exceptions/api.exception';
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterPayload>({
     fullName: '',
     email: '',
     password: '',
@@ -18,11 +22,22 @@ const RegisterPage = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: '' });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+
+      setErrors(prev => ({
+        ...prev,
+        [name]: '',
+      }));
     }
   };
 
@@ -39,20 +54,11 @@ const RegisterPage = () => {
     setErrors({});
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (response.ok && data.success) {
-        setSuccessMsg(data.message);
-        setFormData({ fullName: '', email: '', password: '', confirmPassword: '' });
-      } else {
-        setErrors({ general: data.message || 'Error al registrar' });
-      }
+      await AuthApi.register(formData)
+      navigate("/login")
     } catch (error) {
-      setErrors({ general: 'Error de conexión con el servidor' });
+      const errorCustom = error as ApiException
+      setErrors({ general: errorCustom.message });
     } finally {
       setLoading(false);
     }
@@ -71,7 +77,7 @@ const RegisterPage = () => {
               type="text"
               placeholder="Nombre completo"
               value={formData.fullName}
-              onChange={handleChange}
+              onChange={handleInputChange}
               icon={<FaUser />}
               error={errors.fullName}
             />
@@ -80,7 +86,7 @@ const RegisterPage = () => {
               type="email"
               placeholder="Correo electrónico"
               value={formData.email}
-              onChange={handleChange}
+              onChange={handleInputChange}
               icon={<FaEnvelope />}
               error={errors.email}
             />
@@ -89,7 +95,7 @@ const RegisterPage = () => {
               type="password"
               placeholder="Crear una contraseña"
               value={formData.password}
-              onChange={handleChange}
+              onChange={handleInputChange}
               icon={<FaLock />}
               error={errors.password}
               helperText="Debe tener al menos 8 caracteres"
@@ -99,15 +105,15 @@ const RegisterPage = () => {
               type="password"
               placeholder="Confirmar contraseña"
               value={formData.confirmPassword}
-              onChange={handleChange}
+              onChange={handleInputChange}
               icon={<FaLock />}
               error={errors.confirmPassword}
             />
             {errors.general && <div className={styles.errorGeneral}>{errors.general}</div>}
             {successMsg && <div className={styles.success}>{successMsg}</div>}
-            <button type="submit" disabled={loading} className={styles.button}>
+            <Button type="submit" disabled={loading} className={styles.button}>
               {loading ? 'Registrando...' : 'Registrarme'}
-            </button>
+            </Button>
           </form>
           <div className={styles.divider}>
             <hr />
