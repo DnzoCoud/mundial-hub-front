@@ -8,8 +8,8 @@ export const publicRoutes: AppRoute[] = [
     path: "/",
     element: lazy(() => import("@/pages/RegisterPage")),
     layout: PublicLayout,
+    guard: GuestGuard,   
   },
-
   {
     path: "/login",
     element: lazy(() => import("@/pages/LoginPage")),

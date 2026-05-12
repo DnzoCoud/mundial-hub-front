@@ -1,9 +1,9 @@
 import { httpClient } from "../httpClient";
 
 httpClient.interceptors.request.use((config) => {
-  const token = null
-  if (token)
+  const token = localStorage.getItem("token");
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-
-  return config
-})
+  }
+  return config;
+});

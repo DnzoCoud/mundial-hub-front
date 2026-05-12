@@ -1,0 +1,65 @@
+/* DashboardHome.module.css */
+.welcomeCard {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(245, 197, 24, 0.3);
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.welcomeTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+}
+.welcomeName {
+  color: #f5c518;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #f5c518;
+}
+
+.cardIcon {
+  color: #f5c518;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.cardText {
+  color: #cbd5e1;
+  font-size: 0.875rem;
+}
+
+.preferencesCard {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  padding: 1rem;
+  border-left: 4px solid #f5c518;
+}

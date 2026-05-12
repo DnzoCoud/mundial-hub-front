@@ -1,11 +1,10 @@
 import { Suspense } from "react";
-import { publicRoutes } from "./routes/public.routes";
-import type { AppRoute } from "./types/route.type";
 import { useRoutes } from "react-router-dom";
+import { publicRoutes } from "./routes/public.routes";
+import { protectedRoutes } from "./routes/protected.routes";
+import type { AppRoute } from "./types/route.type";
 
-const routes = [
-  ...publicRoutes
-];
+const routes = [...publicRoutes, ...protectedRoutes];
 
 const renderRoutes = (routes: AppRoute[]) => {
   return routes.map(route => {
@@ -19,34 +18,21 @@ const renderRoutes = (routes: AppRoute[]) => {
 
     if (route.guard) {
       const Guard = route.guard;
-
-      content = (
-        <Guard>
-          {content}
-        </Guard>
-      );
+      content = <Guard>{content}</Guard>;
     }
 
-    if(route.layout) {
+    if (route.layout) {
       const Layout = route.layout;
-
-      content = (
-        <Layout>
-          {content}
-        </Layout>
-      );
+      content = <Layout>{content}</Layout>;
     }
 
     return {
       path: route.path,
       element: content
-    }
-  })
-
-}
+    };
+  });
+};
 
 export default function AppRouter() {
-  return useRoutes(
-    renderRoutes(routes)
-  )
+  return useRoutes(renderRoutes(routes));
 }
