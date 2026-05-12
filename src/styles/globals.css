@@ -120,12 +120,12 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @ly border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground p-0 m-0 box-border;
+    @ly bg-background text-foreground p-0 m-0 box-border;
   }
   html {
-    @apply font-sans;
+    @ly font-sans;
   }
 }

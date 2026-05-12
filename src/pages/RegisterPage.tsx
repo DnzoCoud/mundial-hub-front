@@ -1,7 +1,7 @@
 // src/pages/RegisterPage.tsx
-import { AuthApi } from '@app/app/infrastructure/api/auth.api';
-import type { RegisterPayload } from '@app/app/infrastructure/http/types/register-payload.type';
-import { Button } from '@app/components/ui/button';
+import { AuthApi } from '@/app/infrastructure/api/auth.api';
+import type { RegisterPayload } from '@/app/infrastructure/http/types/register-payload.type';
+import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import logoImg from '../assets/LogoMundialBLanco.png';
 import InputWithIcon from '../components/InputWithIcon';
 import styles from '../styles/RegisterPage.module.css';
 import { validateRegisterForm } from '../validations/registerValidation';
-import type { ApiException } from '@app/app/infrastructure/exceptions/api.exception';
+import type { ApiException } from '@/app/infrastructure/exceptions/api.exception';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState<RegisterPayload>({

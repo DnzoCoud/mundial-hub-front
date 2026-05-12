@@ -1,7 +1,7 @@
 // src/pages/LoginPage.tsx
-import { AuthApi } from '@app/app/infrastructure/api/auth.api';
-import type { ApiException } from '@app/app/infrastructure/exceptions/api.exception';
-import { type LoginPayload } from '@app/app/infrastructure/http/types/login-payload.type';
+import { AuthApi } from '@/app/infrastructure/api/auth.api';
+import type { ApiException } from '@/app/infrastructure/exceptions/api.exception';
+import { type LoginPayload } from '@/app/infrastructure/http/types/login-payload.type';
 import { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';

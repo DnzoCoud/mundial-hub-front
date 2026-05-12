@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@app/app/types/api.types";
+import type { ApiResponse } from "@/app/types/api.types";
 import type { AxiosResponse } from "axios";
 import { ApiException } from "../exceptions/api.exception";
 

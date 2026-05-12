@@ -1,4 +1,5 @@
-import type { ComponentChild } from "@app/app/types/basic.type";
+import type { ComponentChild } from "@/app/types/basic.type";
+
 
 export default function PublicLayout({ children }: ComponentChild) {
   return (

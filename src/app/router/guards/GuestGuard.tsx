@@ -1,4 +1,4 @@
-import type { ComponentChild } from "@app/app/types/basic.type";
+import type { ComponentChild } from "@/app/types/basic.type";
 import { Navigate } from "react-router-dom";
 
 export default function GuestGuard({ children }: ComponentChild) {
