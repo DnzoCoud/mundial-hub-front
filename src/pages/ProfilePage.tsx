@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
 import { httpClient } from "@/app/infrastructure/http/httpClient";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Calendar, MapPin, Camera } from "lucide-react";
+import { Camera } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState({ fullName: "", birthDate: "", country: "", avatarUrl: "" });
@@ -38,6 +38,7 @@ export default function ProfilePage() {
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
       setMessage("Error al actualizar el perfil");
+      console.error(error);
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { httpClient } from "@/app/infrastructure/http/httpClient";
 import { Calendar, Trophy, Album, Star } from "lucide-react";
-import styles from "./DashboardHome.module.css";
+import styles from "@/styles/DashboardHome.module.css";
 
 export default function DashboardHome() {
   const [username, setUsername] = useState("");
