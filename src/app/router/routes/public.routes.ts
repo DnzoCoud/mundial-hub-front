@@ -16,4 +16,9 @@ export const publicRoutes: AppRoute[] = [
     layout: PublicLayout,
     guard: GuestGuard,
   },
+  {
+    path: "/unirse",
+    element: lazy(() => import("@/pages/JoinGroupPage")),
+    layout: PublicLayout,
+  },
 ];

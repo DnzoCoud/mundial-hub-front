@@ -166,3 +166,16 @@ body {
   background: #f5c518;
   border-radius: 3px;
 }
+/* Mejora el blur en los modales */
+.backdrop-blur-sm {
+  backdrop-filter: blur(8px);
+}
+
+/* Animación suave para tarjetas */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.5);
+}
